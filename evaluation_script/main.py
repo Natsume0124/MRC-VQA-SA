@@ -100,7 +100,7 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
             #     output["submission_result"] = output["result"][0]
             #     return output
         # accum_acc = accum_acc / len(test_data)
-        output["result"] = [{"train_split": {"ACC": int(1)}}]
+        output["result"] = [{"train_split": {"ACC": int(accum_acc)}}]
         # To display the results in the result file
         output["submission_result"] = output["result"][0]
         print("Completed evaluation for VG-RS Phase")
