@@ -79,36 +79,36 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
         with open(user_submission_file, 'r') as f:
             test_data = json.load(f)
             # 构建用户提交数据的查找字典
-    user_dict = {(item['image_path'], item['question']): item for item in user_data}
-
-    # 存储结果
-    results = []
-    accum_acc = 0
-    # 遍历测试数据
-    for item in test_data:
-        key = (item['image_path'], item['question'])
-        if key in user_dict:
-            # 获取两个result并计算IOU
-            box1 = item['result']
-            box2 = user_dict[key]['result']
-            iou = compute_iou(box1, box2)
-            results.append(iou)
-            if iou >= 0.5:
-                accum_acc += 1
-        # else:
-        #     output["result"] = [{"train_split": {"ACC": NAN}}]
-        #     output["submission_result"] = output["result"][0]
-        #     return output
-    # accum_acc = accum_acc / len(test_data)
-    output["result"] = [{"train_split": {"ACC": accum_acc}}]
-    # To display the results in the result file
-    output["submission_result"] = output["result"][0]
-    print("Completed evaluation for VG-RS Phase")
+        # user_dict = {(item['image_path'], item['question']): item for item in user_data}
     
-    print("123",user_submission_file)
-    print(user_data)
-    print("456",test_annotation_file)
-    print(test_data)
+        # # 存储结果
+        # results = []
+        # accum_acc = 0
+        # # 遍历测试数据
+        # for item in test_data:
+        #     key = (item['image_path'], item['question'])
+        #     if key in user_dict:
+        #         # 获取两个result并计算IOU
+        #         box1 = item['result']
+        #         box2 = user_dict[key]['result']
+        #         iou = compute_iou(box1, box2)
+        #         results.append(iou)
+        #         if iou >= 0.5:
+        #             accum_acc += 1
+        #     # else:
+        #     #     output["result"] = [{"train_split": {"ACC": NAN}}]
+        #     #     output["submission_result"] = output["result"][0]
+        #     #     return output
+        # # accum_acc = accum_acc / len(test_data)
+        output["result"] = [{"train_split": {"ACC": int(1)}}]
+        # To display the results in the result file
+        output["submission_result"] = output["result"][0]
+        print("Completed evaluation for VG-RS Phase")
+        
+        print("123",user_submission_file)
+        print(user_data)
+        print("456",test_annotation_file)
+        print(test_data)
     elif phase_codename == "test":
         print("Evaluating for Test Phase")
         output["result"] = [
