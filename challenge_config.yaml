@@ -30,7 +30,7 @@ leaderboard:
 
 challenge_phases:
   - id: 1
-    name: Dev Phase
+    name: VG-RS
     description: templates/challenge_phase_1_description.html
     leaderboard_public: False
     is_public: False
@@ -43,7 +43,7 @@ challenge_phases:
     start_date: 2019-01-19 00:00:00
     end_date: 2099-04-25 23:59:59
     test_annotation_file: annotations/test_annotations_devsplit.json
-    codename: dev
+    codename: VG-RS
     max_submissions_per_day: 5000
     max_submissions_per_month: 5000
     max_submissions: 5000
