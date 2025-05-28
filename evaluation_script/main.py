@@ -1,6 +1,38 @@
 import random
 import json
+def compute_iou(box1, box2):
+    """
+    计算两个边界框的IOU（Intersection over Union）
+    :param box1: 第一个边界框 [[x1, y1], [x2, y2]]
+    :param box2: 第二个边界框 [[x1, y1], [x2, y2]]
+    :return: IOU值
+    """
+    # 标准化边界框坐标（确保左上角和右下角）
+    x1s = [min(p[0] for p in box1), min(p[0] for p in box2)]
+    x2s = [max(p[0] for p in box1), max(p[0] for p in box2)]
+    y1s = [min(p[1] for p in box1), min(p[1] for p in box2)]
+    y2s = [max(p[1] for p in box1), max(p[1] for p in box2)]
 
+    # 获取交集坐标
+    inter_x1 = max(x1s[0], x1s[1])
+    inter_y1 = max(y1s[0], y1s[1])
+    inter_x2 = min(x2s[0], x2s[1])
+    inter_y2 = min(y2s[0], y2s[1])
+
+    # 计算交集面积
+    inter_width = max(0, inter_x2 - inter_x1)
+    inter_height = max(0, inter_y2 - inter_y1)
+    inter_area = inter_width * inter_height
+
+    # 计算各自面积
+    area1 = (x2s[0] - x1s[0]) * (y2s[0] - y1s[0])
+    area2 = (x2s[1] - x1s[1]) * (y2s[1] - y1s[1])
+
+    # 计算并集面积
+    union_area = area1 + area2 - inter_area
+
+    # 计算IOU
+    return inter_area / union_area if union_area > 0 else 0.0
 def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwargs):
     print("Starting Evaluation.....")
     """
@@ -40,8 +72,9 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
         }
     """
     output = {}
-    if phase_codename == "dev":
+    if phase_codename == "VG-RS":
         print("Evaluating for Dev Phase")
+        
         output["result"] = [
             {
                 "train_split": {
