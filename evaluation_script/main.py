@@ -16,7 +16,7 @@ def check_zhipuai_import():
     try:
         # 尝试获取已导入的模块
         import sys
-        if 'shapely' in sys.modules :
+        if 'requests' in sys.modules :
             package_loaded = True
         # else:
         #     # 如果未导入则尝试导入
