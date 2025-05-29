@@ -46,10 +46,10 @@ def install_local_package(folder_name):
     except PermissionError:
         print("Error: Permission denied. ")
 
-# install("shapely==1.7.1")
+install("shapely==1.7.1")
 # install("requests==2.25.1")
-install("zhipuai")
-install_local_package("package_folder_name")
+# install("zhipuai")
+# install_local_package("package_folder_name")
 
 
 print("finish zhipuai")
