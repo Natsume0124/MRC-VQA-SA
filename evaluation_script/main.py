@@ -1,5 +1,6 @@
 import random
 import json
+from zhipuai import ZhipuAI
 def compute_iou(box1, box2):
     """
     计算两个边界框的IOU（Intersection over Union）
