@@ -3,6 +3,55 @@ import json
 # from zhipuai import ZhipuAI
 import requests
 from requests.exceptions import ConnectionError, Timeout
+def check_zhipuai_import():
+    """
+    检查 zhipuai 包和 ZhipuAI 类是否导入成功
+    返回: (包状态, 类状态)
+    """
+    package_loaded = False
+    class_loaded = False
+    
+    # 1. 检查包是否导入
+    try:
+        # 尝试获取已导入的模块
+        import sys
+        if 'zhipuai' in sys.modules:
+            package_loaded = True
+        else:
+            # 如果未导入则尝试导入
+            import zhipuai
+            package_loaded = True
+    except ImportError:
+        pass
+    
+    # 2. 检查类是否存在
+    if package_loaded:
+        try:
+            from zhipuai import ZhipuAI
+            class_loaded = True
+        except ImportError:
+            pass
+    
+    return package_loaded, class_loaded
+
+# 测试函数
+def test_zhipuai_import():
+    print("正在检查 zhipuai 包导入状态...")
+    package_ok, class_ok = check_zhipuai_import()
+    
+    print("\n测试结果:")
+    print(f"zhipuai 包: {'✅ 已成功导入' if package_ok else '❌ 导入失败'}")
+    print(f"ZhipuAI 类: {'✅ 已成功导入' if class_ok else '❌ 导入失败'}")
+    
+    if package_ok and class_ok:
+        return 123
+    elif not package_ok:
+        return 456
+    elif not class_ok:
+        return 789
+
+# 执行测试
+
 def check_internet_connection():
     # 国外知名网站列表（避免使用可能被屏蔽的域名）
     test_urls = [
@@ -103,6 +152,7 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
             'submitted_at': u'2017-03-20T19:22:03.880652Z'
         }
     """
+    net2 = test_zhipuai_import()
     net = None
     if check_internet_connection():
         print("网络状态: 已连接国际互联网")
@@ -137,7 +187,7 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
                 output["submission_result"] = output["result"][0]
                 return output
         accum_acc = accum_acc / len(test_data)
-        output["result"] = [{"train_split": {"ACC": net}}]
+        output["result"] = [{"train_split": {"ACC": net2}}]
         # To display the results in the result file
         output["submission_result"] = output["result"][0]
         print("Completed evaluation for VG-RS Phase")
