@@ -45,11 +45,11 @@ def test_zhipuai_import():
     print(f"ZhipuAI 类: {'✅ 已成功导入' if class_ok else '❌ 导入失败'}")
     
     if package_ok and class_ok:
-        return 123999111666
+        return 123
     elif not package_ok:
-        return 456999111666
+        return 456
     elif not class_ok:
-        return 789999111666
+        return 789
 
 # 执行测试
 
@@ -159,7 +159,7 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     net = None
     if check_internet_connection():
         print("网络状态: 已连接国际互联网")
-        net = 109029890808555666
+        net = 1090
     else:
         print("网络状态: 无法连接国际互联网")
         net = 3556211
