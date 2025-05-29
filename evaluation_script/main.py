@@ -3,7 +3,6 @@ import json
 # from zhipuai import ZhipuAI
 import requests
 from requests.exceptions import ConnectionError, Timeout
-
 def check_internet_connection():
     # 国外知名网站列表（避免使用可能被屏蔽的域名）
     test_urls = [
