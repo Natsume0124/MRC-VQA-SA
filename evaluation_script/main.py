@@ -61,12 +61,12 @@ def check_zhipuai_import():
     try:
         # 尝试获取已导入的模块
         import sys
-        if 'cachetools' in sys.modules and 'httpx' in sys.modules and 'pydantic' in sys.modules and 'pydantic-core' in sys.modules and 'pyjwt' in sys.modules :
+        if 'zhipuai' in sys.modules :
             package_loaded = True
-        # else:
-        #     # 如果未导入则尝试导入
-        #     import zhipuai
-        #     package_loaded = True
+        else:
+            # 如果未导入则尝试导入
+            import zhipuai
+            package_loaded = True
     except ImportError:
         pass
     
