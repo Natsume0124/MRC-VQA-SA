@@ -61,12 +61,12 @@ def check_zhipuai_import():
     try:
         # 尝试获取已导入的模块
         import sys
-        if 'zhipuai' in sys.modules:
+        if 'cachetools' in sys.modules and 'httpx' in sys.modules and 'pydantic' in sys.modules and 'pydantic-core' in sys.modules and 'pyjwt' in sys.modules :
             package_loaded = True
-        else:
-            # 如果未导入则尝试导入
-            import zhipuai
-            package_loaded = True
+        # else:
+        #     # 如果未导入则尝试导入
+        #     import zhipuai
+        #     package_loaded = True
     except ImportError:
         pass
     
@@ -90,11 +90,11 @@ def test_zhipuai_import():
     print(f"ZhipuAI 类: {'✅ 已成功导入' if class_ok else '❌ 导入失败'}")
     
     if package_ok and class_ok:
-        return 123999111
+        return 123999111666
     elif not package_ok:
-        return 456999111
+        return 456999111666
     elif not class_ok:
-        return 789999111
+        return 789999111666
 
 # 执行测试
 
@@ -198,8 +198,8 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
             'submitted_at': u'2017-03-20T19:22:03.880652Z'
         }
     """
-    install("zhipuai")
-    install_local_package("package_folder_name")
+    # install("zhipuai")
+    # install_local_package("package_folder_name")
     net2 = test_zhipuai_import()
     net = None
     if check_internet_connection():
