@@ -1,6 +1,6 @@
 import random
 import json
-from zhipuai import ZhipuAI
+# from zhipuai import ZhipuAI
 import requests
 from requests.exceptions import ConnectionError, Timeout
 def check_internet_connection():
