@@ -106,7 +106,7 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     net = None
     if check_internet_connection():
         print("网络状态: 已连接国际互联网")
-        net = 109029890808555
+        net = 109029890808555666
     else:
         print("网络状态: 无法连接国际互联网")
         net = 3556211
