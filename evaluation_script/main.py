@@ -6,7 +6,7 @@ from requests.exceptions import ConnectionError, Timeout
 def check_internet_connection():
     # 国外知名网站列表（避免使用可能被屏蔽的域名）
     test_urls = [
-        "https://www.zhipuai.cn/"
+        "https://open.bigmodel.cn/api/paas/v4"
         # "https://www.cloudflare.com",  # 全球CDN服务
         # "https://www.wikimedia.org",   # 维基媒体基金会
         # "https://www.apple.com",       # 苹果官网
