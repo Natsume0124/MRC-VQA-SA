@@ -1,6 +1,37 @@
 import random
 import json
 # from zhipuai import ZhipuAI
+import requests
+from requests.exceptions import ConnectionError, Timeout
+
+def check_internet_connection():
+    # 国外知名网站列表（避免使用可能被屏蔽的域名）
+    test_urls = [
+        "https://www.cloudflare.com",  # 全球CDN服务
+        "https://www.wikimedia.org",   # 维基媒体基金会
+        "https://www.apple.com",       # 苹果官网
+        "https://www.linuxfoundation.org"  # Linux基金会
+    ]
+    
+    timeout_seconds = 10  # 超时时间（秒）
+    
+    for url in test_urls:
+        try:
+            # 发送HEAD请求（只需响应头，节省带宽）
+            response = requests.head(url, timeout=timeout_seconds)
+            if response.status_code < 500:  # 2xx/3xx/4xx 都表示服务器可达
+                print(f"✅ 网络正常! 成功访问: {url}")
+                return True
+        except (ConnectionError, Timeout):
+            print(f"⛔ 连接失败: {url}")
+        except Exception as e:
+            print(f"⚠️ 意外错误 ({url}): {type(e).__name__}")
+    
+    print("❌ 所有测试站点均无法访问，请检查网络连接")
+    return False
+
+# 执行测试
+
 def compute_iou(box1, box2):
     """
     计算两个边界框的IOU（Intersection over Union）
@@ -72,6 +103,10 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
             'submitted_at': u'2017-03-20T19:22:03.880652Z'
         }
     """
+    if check_internet_connection():
+        print("网络状态: 已连接国际互联网")
+    else:
+        print("网络状态: 无法连接国际互联网")
     output = {}
     if phase_codename == "VG-RS":
         print("Evaluating for VG-RS Phase")
