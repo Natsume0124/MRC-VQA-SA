@@ -52,5 +52,6 @@ install("requests==2.25.1")
 install_local_package("package_folder_name")
 
 """
-
+install("zhipuai")
+print("finish zhipuai")
 from .main import evaluate
