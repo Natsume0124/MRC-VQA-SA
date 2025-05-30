@@ -16,7 +16,7 @@ def check_zhipuai_import():
     try:
         # 尝试获取已导入的模块
         import sys
-        if 'requests' in sys.modules :
+        if 'subprocess' in sys.modules :
             package_loaded = True
         # else:
         #     # 如果未导入则尝试导入
@@ -45,11 +45,11 @@ def test_zhipuai_import():
     print(f"ZhipuAI 类: {'✅ 已成功导入' if class_ok else '❌ 导入失败'}")
     
     if package_ok and class_ok:
-        return 123
+        return 123555
     elif not package_ok:
-        return 456
+        return 456555
     elif not class_ok:
-        return 789
+        return 789555
 
 # 执行测试
 
