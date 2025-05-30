@@ -124,7 +124,7 @@ import site
 
 def install_and_verify(package_name):
     """安装并验证包是否真正可用"""
-    message={}
+    message=[]
     # 步骤1: 执行安装
     try:
         subprocess.check_call(
