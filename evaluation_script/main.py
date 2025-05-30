@@ -27,11 +27,11 @@ def check_zhipuai_import():
     
     # 2. 检查类是否存在
     if package_loaded:
-        # try:
-        from zhipuai import ZhipuAI
-        class_loaded = True
-        # except ImportError:
-        #     pass
+        try:
+            from zhipuai import ZhipuAI
+            class_loaded = True
+        except ImportError:
+            pass
     
     return package_loaded, class_loaded
 
@@ -116,6 +116,80 @@ def compute_iou(box1, box2):
 
     # 计算IOU
     return inter_area / union_area if union_area > 0 else 0.0
+
+import sys
+import subprocess
+import importlib
+import site
+
+def install_and_verify(package_name):
+    """安装并验证包是否真正可用"""
+    message={}
+    # 步骤1: 执行安装
+    try:
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "install", "--user", package_name],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        print(f"✅ {package_name} 安装命令执行成功")
+        message.append(f"✅ {package_name} 安装命令执行成功")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ 安装失败: {e}")
+        message.append(f"❌ 安装失败: {e}")
+        return False,message
+    
+    # 步骤2: 确保用户包路径在 sys.path 中
+    user_site = site.getusersitepackages()
+    if user_site not in sys.path:
+        sys.path.append(user_site)
+        print(f"⚠️ 已添加用户包路径: {user_site}")
+        message.append(f"⚠️ 已添加用户包路径: {user_site}")
+    # 步骤3: 清除导入缓存
+    for mod in list(sys.modules):
+        if package_name in mod:
+            del sys.modules[mod]
+    importlib.invalidate_caches()
+    
+    # 步骤4: 验证导入
+    try:
+        # 测试顶层导入
+        importlib.import_module(package_name)
+        
+        # 测试关键组件（针对 zhipuai）
+        from zhipuai import ZhipuAI
+        
+        print(f"✅✅ {package_name} 完全可用")
+        message.append(f"✅✅ {package_name} 完全可用")
+        return True,message
+    except ImportError as e:
+        print(f"❌❌ 导入失败: {e}")
+        message.append(f"❌❌ 导入失败: {e}")
+        # 诊断信息
+        print("\n诊断信息:")
+        print(f"Python 路径: {sys.path}")
+        print(f"用户包路径: {user_site}")
+        message.append(f"诊断信息:Python 路径: {sys.path}用户包路径: {user_site}")
+        # 检查实际安装位置
+        try:
+            result = subprocess.run(
+                [sys.executable, "-m", "pip", "show", package_name],
+                capture_output=True,
+                text=True
+            )
+            print(f"pip show 输出:\n{result.stdout}")
+            message.append(f"pip show 输出:\n{result.stdout}")
+        except Exception:
+            pass
+        
+        return False,message
+
+# 使用示例
+# if install_and_verify("zhipuai"):
+#     from zhipuai import ZhipuAI
+#     print("客户端创建成功!")
+# else:
+#     print("无法使用 zhipuai，请检查以上错误信息")
 def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwargs):
     print("Starting Evaluation.....")
     """
@@ -157,8 +231,14 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     # install("zhipuai")
     # install_local_package("package_folder_name")
     import subprocess
+    import importlib
     import sys
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "zhipuai"])
+    # subprocess.check_call([sys.executable, "-m", "pip", "install", "zhipuai"])
+    # for mod in list(sys.modules):
+    #     if package_name in mod:
+    #         del sys.modules[mod]
+    # importlib.invalidate_caches()
+    _,message=install_and_verify("zhipuai")
     net2 = test_zhipuai_import()
     # net = check_internet_connection()
     # if 
@@ -171,30 +251,30 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     if phase_codename == "VG-RS":
         print("Evaluating for VG-RS Phase")
     # 读取JSON文件
-        with open(test_annotation_file, 'r', encoding='utf-8') as f:
-            test_data = json.load(f)
-        with open(user_submission_file, 'r', encoding='utf-8') as f:
-            user_data = json.load(f)
-            # 构建用户提交数据的查找字典
-        user_dict = {(item['image_path'], item['question']): item for item in user_data}
-        # 存储结果
-        accum_acc = 0
-        # 遍历测试数据
-        for item in test_data:
-            key = (item['image_path'], item['question'])
-            if key in user_dict:
-                # 获取两个result并计算IOU
-                box1 = item['result']
-                box2 = user_dict[key]['result']
-                iou = compute_iou(box1, box2)
-                if iou >= 0.5:
-                    accum_acc += 1
-            else:
-                output["result"] = [{"train_split": {"ACC": NAN}}]
-                output["submission_result"] = output["result"][0]
-                return output
-        accum_acc = accum_acc / len(test_data)
-        output["result"] = [{"train_split": {"ACC": net2}}]
+        # with open(test_annotation_file, 'r', encoding='utf-8') as f:
+        #     test_data = json.load(f)
+        # with open(user_submission_file, 'r', encoding='utf-8') as f:
+        #     user_data = json.load(f)
+        #     # 构建用户提交数据的查找字典
+        # user_dict = {(item['image_path'], item['question']): item for item in user_data}
+        # # 存储结果
+        # accum_acc = 0
+        # # 遍历测试数据
+        # for item in test_data:
+        #     key = (item['image_path'], item['question'])
+        #     if key in user_dict:
+        #         # 获取两个result并计算IOU
+        #         box1 = item['result']
+        #         box2 = user_dict[key]['result']
+        #         iou = compute_iou(box1, box2)
+        #         if iou >= 0.5:
+        #             accum_acc += 1
+        #     else:
+        #         output["result"] = [{"train_split": {"ACC": NAN}}]
+        #         output["submission_result"] = output["result"][0]
+        #         return output
+        # accum_acc = accum_acc / len(test_data)
+        output["result"] = [{"train_split": {"ACC": message}}]
         # To display the results in the result file
         output["submission_result"] = output["result"][0]
         print("Completed evaluation for VG-RS Phase")
