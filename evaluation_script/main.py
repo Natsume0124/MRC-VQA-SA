@@ -56,7 +56,8 @@ def test_zhipuai_import():
 def check_internet_connection():
     # 国外知名网站列表（避免使用可能被屏蔽的域名）
     test_urls = [
-        "https://open.bigmodel.cn/api/paas/v4"
+        "https://open.bigmodel.cn/api/paas/v4",
+        "https://www.zhipuai.cn/"
         # "https://www.cloudflare.com",  # 全球CDN服务
         # "https://www.wikimedia.org",   # 维基媒体基金会
         # "https://www.apple.com",       # 苹果官网
@@ -190,7 +191,7 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
                 output["submission_result"] = output["result"][0]
                 return output
         accum_acc = accum_acc / len(test_data)
-        output["result"] = [{"train_split": {"ACC": net2}}]
+        output["result"] = [{"train_split": {"ACC": net}}]
         # To display the results in the result file
         output["submission_result"] = output["result"][0]
         print("Completed evaluation for VG-RS Phase")
