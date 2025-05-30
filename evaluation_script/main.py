@@ -45,11 +45,11 @@ def test_zhipuai_import():
     print(f"ZhipuAI 类: {'✅ 已成功导入' if class_ok else '❌ 导入失败'}")
     
     if package_ok and class_ok:
-        return 123555
+        return 123555666
     elif not package_ok:
-        return 456555
+        return 456555666
     elif not class_ok:
-        return 789555
+        return 789555666
 
 # 执行测试
 
