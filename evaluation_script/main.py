@@ -16,7 +16,7 @@ def check_zhipuai_import():
     try:
         # 尝试获取已导入的模块
         import sys
-        if 'subprocess' in sys.modules :
+        if 'subprocess' in sys.modules and 'importlib' in sys.modules:
             package_loaded = True
         # else:
         #     # 如果未导入则尝试导入
