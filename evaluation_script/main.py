@@ -56,7 +56,7 @@ def test_zhipuai_import():
 def check_internet_connection():
     # 国外知名网站列表（避免使用可能被屏蔽的域名）
     test_urls = [
-        "https://open.bigmodel.cn/api/paas/v4",
+        # "https://open.bigmodel.cn/api/paas/v4",
         "https://www.zhipuai.cn/"
         # "https://www.cloudflare.com",  # 全球CDN服务
         # "https://www.wikimedia.org",   # 维基媒体基金会
