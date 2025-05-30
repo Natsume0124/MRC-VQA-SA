@@ -156,8 +156,10 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     """
     # install("zhipuai")
     # install_local_package("package_folder_name")
+    import subprocess
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "zhipuai"])
     net2 = test_zhipuai_import()
-    net = check_internet_connection()
+    # net = check_internet_connection()
     # if 
     #     print("网络状态: 已连接国际互联网")
     #     net = 1090
@@ -191,7 +193,7 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
                 output["submission_result"] = output["result"][0]
                 return output
         accum_acc = accum_acc / len(test_data)
-        output["result"] = [{"train_split": {"ACC": net}}]
+        output["result"] = [{"train_split": {"ACC": net2}}]
         # To display the results in the result file
         output["submission_result"] = output["result"][0]
         print("Completed evaluation for VG-RS Phase")
