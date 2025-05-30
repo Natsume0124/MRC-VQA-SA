@@ -157,6 +157,7 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     # install("zhipuai")
     # install_local_package("package_folder_name")
     import subprocess
+    import sys
     subprocess.check_call([sys.executable, "-m", "pip", "install", "zhipuai"])
     net2 = test_zhipuai_import()
     # net = check_internet_connection()
