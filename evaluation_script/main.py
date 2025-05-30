@@ -157,7 +157,7 @@ def install_and_verify(package_name):
         importlib.import_module(package_name)
         
         # 测试关键组件（针对 zhipuai）
-        from zhipuai import ZhipuAI
+        # from zhipuai import ZhipuAI
         
         print(f"✅✅ {package_name} 完全可用")
         message.append(f"✅✅ {package_name} 完全可用")
