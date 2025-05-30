@@ -27,11 +27,11 @@ def check_zhipuai_import():
     
     # 2. 检查类是否存在
     if package_loaded:
-        try:
-            from zhipuai import ZhipuAI
-            class_loaded = True
-        except ImportError:
-            pass
+        # try:
+        from zhipuai import ZhipuAI
+        class_loaded = True
+        # except ImportError:
+        #     pass
     
     return package_loaded, class_loaded
 
