@@ -52,5 +52,5 @@
 # install_local_package("package_folder_name")
 
 
-print("finish zhipuai")
+# print("finish zhipuai")
 from .main import evaluate
